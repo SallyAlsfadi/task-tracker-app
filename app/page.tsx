@@ -1,5 +1,6 @@
 import React from "react";
 import TaskItem from "./components/TaskItem";
+import Link from "next/link";
 
 const API_URL = "https://jsonplaceholder.typicode.com/todos?_limit=5";
 
@@ -36,20 +37,30 @@ export default async function Home() {
               >
                 <td className="border border-gray-400 px-6 py-3">
                   {completedTasks[index] ? (
-                    <TaskItem
-                      title={completedTasks[index].title}
-                      completed={true}
-                    />
+                    <Link
+                      href={`/task/${completedTasks[index].id}`}
+                      className="hover:underline"
+                    >
+                      <TaskItem
+                        title={completedTasks[index].title}
+                        completed={true}
+                      />
+                    </Link>
                   ) : (
                     "-"
                   )}
                 </td>
                 <td className="border border-gray-400 px-6 py-3">
                   {pendingTasks[index] ? (
-                    <TaskItem
-                      title={pendingTasks[index].title}
-                      completed={false}
-                    />
+                    <Link
+                      href={`/task/${pendingTasks[index].id}`}
+                      className="hover:underline"
+                    >
+                      <TaskItem
+                        title={pendingTasks[index].title}
+                        completed={false}
+                      />
+                    </Link>
                   ) : (
                     "-"
                   )}
