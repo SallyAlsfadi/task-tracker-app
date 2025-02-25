@@ -1,4 +1,5 @@
 import React from "react";
+import TaskItem from "./components/TaskItem";
 
 const API_URL = "https://jsonplaceholder.typicode.com/todos?_limit=5";
 
@@ -6,25 +7,21 @@ export default async function Home() {
   const response = await fetch(API_URL);
   const tasks = await response.json();
 
-  const completedTasks = tasks.filter(
-    (task: { completed: boolean }) => task.completed
-  );
-  const pendingTasks = tasks.filter(
-    (task: { completed: boolean }) => !task.completed
-  );
+  const completedTasks = tasks.filter((task) => task.completed);
+  const pendingTasks = tasks.filter((task) => !task.completed);
 
   return (
     <main className="p-8">
-      <h1 className="text-4xl font-bold text-center mb-6">Task Tracker</h1>
+      <h1 className="text-4xl font-extrabold text-center mb-6">Task Tracker</h1>
 
       <div className="overflow-x-auto">
-        <table className="w-full border-collapse border border-gray-300 shadow-md">
+        <table className="w-full border-collapse border border-gray-300 shadow-lg text-center">
           <thead>
-            <tr className="bg-gray-200">
-              <th className="border border-gray-400 px-4 py-2 text-lg">
+            <tr className="bg-gray-300 text-lg">
+              <th className="border border-gray-400 px-6 py-3 font-bold">
                 Completed Tasks
               </th>
-              <th className="border border-gray-400 px-4 py-2 text-lg">
+              <th className="border border-gray-400 px-6 py-3 font-bold">
                 Pending Tasks
               </th>
             </tr>
@@ -33,12 +30,29 @@ export default async function Home() {
             {Array.from({
               length: Math.max(completedTasks.length, pendingTasks.length),
             }).map((_, index) => (
-              <tr key={index} className="hover:bg-gray-100">
-                <td className="border border-gray-400 px-4 py-2">
-                  {completedTasks[index] ? completedTasks[index].title : "-"}
+              <tr
+                key={index}
+                className="bg-white even:bg-gray-100 hover:bg-gray-200 transition"
+              >
+                <td className="border border-gray-400 px-6 py-3">
+                  {completedTasks[index] ? (
+                    <TaskItem
+                      title={completedTasks[index].title}
+                      completed={true}
+                    />
+                  ) : (
+                    "-"
+                  )}
                 </td>
-                <td className="border border-gray-400 px-4 py-2">
-                  {pendingTasks[index] ? pendingTasks[index].title : "-"}
+                <td className="border border-gray-400 px-6 py-3">
+                  {pendingTasks[index] ? (
+                    <TaskItem
+                      title={pendingTasks[index].title}
+                      completed={false}
+                    />
+                  ) : (
+                    "-"
+                  )}
                 </td>
               </tr>
             ))}
